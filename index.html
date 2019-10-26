@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Connect 4</title>
+  <!--<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">-->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+  <meta name="Description"
+    content="Play Connect4.org, try to match 4 orbs in a row before your opponent! Play against an AI or local human!">
+<meta name="yandex-verification" content="bf164e7775ea74dc" />
+<script>
+  function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  )
+}
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+//console.log(document.cookie);
+
+if(document.cookie != true)
+  setCookie("uuid4",uuidv4(), 730)
+
+</script>
+  <!-- Google Analytics -->
+  <script>
+
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-77266012-5', 'auto');
+    ga('set', 'appName', 'Connect4.org');
+    ga('set', 'appVersion', 'v1');
+    ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+  <link rel="stylesheet" href="resources/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="./resources/images/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./resources/images/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./resources/images/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./resources/images/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./resources/images/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./resources/images/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./resources/images/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./resources/images/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./resources/images/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./resources/images/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./resources/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./resources/images/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./resources/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./resources/images/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7L4VGV" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  
+  <div id="p5_loading" class="loadingclass" style="background-image: linear-gradient(rgb(61, 114, 198), rgb(61, 74, 198));width: 100%; height: 100%;position: absolute; top: 0; left: 0;display: flex;
+    align-items: center;justify-content: center;">
+    <div>
+      <img src="./resources/images/icons/android-icon-192x192.png" style="margin: 0px 0px 100% 0px;">
+      <div id="progress"></div>
+    </div>
+
+  </div>
+  
+  <noscript>
+    <!-- anchor linking to external file -->
+    <a style="color:white; font-size: 8vh; font-family: Roboto">
+      <center>Connect4.org</center>
+    </a>
+    <a style="color:white; font-size: 5vh; font-family: Roboto">
+      <center>This site requires java script to run, please enable it to use Connect4.org.</center>
+    </a>
+    <a style="color:lightcyan; font-size: 5vh; font-family: Roboto" href="https://www.enable-javascript.com/">
+      <center>Click here if you don't know how!</center>
+    </a>
+    <center><img src="./resources/images/icons/android-icon-192x192.png"></center>
+  </noscript>
+  </div>
+  <script>
+    ; (function () {
+      function id(v) { return document.getElementById(v); }
+      function loadbar() {
+        var prog = id("progress"),
+          img = document.images,
+          c = 0,
+          tot = img.length;
+        if (tot == 0) return doneLoading();
+
+        function imgLoaded() {
+          c += 1;
+          var perc = ((100 / tot * c) << 0) + "%";
+          prog.style.width = perc;
+          if (c === tot) return doneLoading();
+        }
+        function doneLoading() {
+        
+        }
+        for (var i = 0; i < tot; i++) {
+          var tImg = new Image();
+          tImg.onload = imgLoaded;
+          tImg.onerror = imgLoaded;
+          tImg.src = img[i].src;
+        }
+      }
+      document.addEventListener('DOMContentLoaded', loadbar, false);
+    }());
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>-->
+  <!--<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.1.0/dist/tf.min.js"></script>-->
+
+  <!--<script src="Ads.js"></script>-->
+  <script src="Game.js"></script>
+  <script src="Board.js"></script>
+  <script src="Tile.js"></script>
+  <script src="Player.js"></script>
+  <script src="UI.js"></script>
+  <script src="AI.js"></script>
+  <script src="Menu.js"></script>
+  <script src="Window.js"></script>
+  <!--<script src="MachineLearning.js"></script>-->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => {
+            console.log('Service worker registered! 😎', reg);
+          })
+          .catch(err => {
+            console.log('😥 Service worker registration failed: ', err);
+          });
+      });
+    }
+    </script>
+</body>
+
+</html>
